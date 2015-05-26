@@ -12,6 +12,14 @@ public class Salle {
 		return new ArrayList<Salle>(lsSalle);
 	}
 
+	public static List<String> getAllStr() {
+		List<String> lsStr = new ArrayList<String>();
+		for (Salle gr : lsSalle) {
+			lsStr.add(gr.getName());
+		}
+		return lsStr;
+	}
+
 	public static Salle getSalle(int id) {
 		try {
 			return lsSalle.get(id);
@@ -79,7 +87,7 @@ public class Salle {
 
 	@Override
 	public String toString() {
-		return "Salle [id=" + id + ", name=" + name + "]";
+		return name;
 	}
 
 }

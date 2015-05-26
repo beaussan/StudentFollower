@@ -15,6 +15,14 @@ public class Groupe {
 		return new ArrayList<Groupe>(lsGr);
 	}
 
+	public static List<String> getAllString() {
+		List<String> lsStr = new ArrayList<String>();
+		for (Groupe gr : lsGr) {
+			lsStr.add(gr.getName());
+		}
+		return lsStr;
+	}
+
 	public static void main(String[] args) {
 		for (int i = 0; i < 9; i++) {
 			String tmp = "abcdefghijk";
@@ -157,6 +165,7 @@ public class Groupe {
 
 	@Override
 	public String toString() {
+
 		return "Groupe [id=" + id + ", ref=" + ref + ", lsEtu=" + lsEtu
 				+ ", name=" + name + "]";
 	}
