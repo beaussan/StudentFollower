@@ -17,11 +17,12 @@ import javax.swing.SwingUtilities;
 
 public class Main extends JFrame {
 	
+	JButton lol = new JButton("mdr");
 	private JPanel panel1 = new JPanel();
 	private JPanel panel2 = new JPanel();
 	private JPanel panel3 = new JPanel();
 	private JPanel panel4 = new JPanel();
-	private JScrollPane scroll = new JScrollPane(panel3);
+	
 	
 	String[] ls1 = {"3A20","4A18"};
 	String[] ls2 = {"N2P2F","N2P2G"};
@@ -36,6 +37,7 @@ public class Main extends JFrame {
 	
 	public Main() {	
 		
+		JScrollPane scroll = new JScrollPane(panel3);
 		this.setPreferredSize(new Dimension(350,500));
 		this.setTitle("StudentFollower");
 		this.setLocationRelativeTo(null);
