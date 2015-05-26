@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,7 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-//TODO Faire des ArrayList pour les ComboBox au lieu de simples String[]
+import org.studentfolower.data.management.Groupe;
+import org.studentfolower.data.physical.Salle;
+import org.studentfolower.util.ArrayUtils;
 
 public class Main extends JFrame {
 	
@@ -22,13 +25,7 @@ public class Main extends JFrame {
 	private JPanel panel2 = new JPanel();
 	private JPanel panel3 = new JPanel();
 	private JPanel panel4 = new JPanel();
-	
-	
-	String[] ls1 = {"3A20","4A18"};
-	String[] ls2 = {"N2P2F","N2P2G"};
-	
-	private JComboBox<String> combo1 = new JComboBox<String>(ls1);
-	private JComboBox<String> combo2 = new JComboBox<String>(ls2);
+
 	
 	private JButton options = new JButton("O");
 	private JButton ba = new JButton("a");
@@ -37,8 +34,14 @@ public class Main extends JFrame {
 	
 	public Main() {	
 		
+		List<String> ls1 = Salle.getAllStr();
+		List<String> ls2 = Groupe.getAllStr();
+		
+		JComboBox<String> combo1 = new JComboBox<String>(ArrayUtils.toArray(ls1));
+		JComboBox<String> combo2 = new JComboBox<String>(ArrayUtils.toArray(ls2));
+		
 		JScrollPane scroll = new JScrollPane(panel3);
-		this.setPreferredSize(new Dimension(350,500));
+		this.setPreferredSize(new Dimension(330,500));
 		this.setTitle("StudentFollower");
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -97,6 +100,21 @@ public class Main extends JFrame {
 	}
 	
 	public static void main(String[] args) {
+		
+		for (int i = 0; i < 10; i++) {
+			String tmp = "abcdefghijk";
+			for (int j = 0; j < tmp.length(); j++) {
+				new Groupe(i + " : " + tmp.charAt(j));
+			}
+		}
+		
+		for (int i = 0; i < 10; i++) {
+			String tmp = "lmnopqrstuv";
+			for (int j = 0; j < tmp.length(); j++) {
+				new Salle(i + " : " + tmp.charAt(j));
+			}
+		}
+		
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
