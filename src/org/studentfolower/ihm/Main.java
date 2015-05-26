@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -89,7 +88,6 @@ public class Main extends JFrame {
 		
 		c.ipady = 0;
 		c.weightx = 0.0;
-		//c.gridwidth = 3;
 		c.gridx = 0;
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.PAGE_END;
