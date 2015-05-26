@@ -51,13 +51,13 @@ public class Main extends JFrame {
 		JComboBox<String> combo2 = new JComboBox<String>(ArrayUtils.toArray(ls2));
 		
 		JScrollPane scroll = new JScrollPane(panel3);
+		
 		this.setPreferredSize(new Dimension(330,500));
 		this.setTitle("StudentFollower");
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel2.setLayout(new GridLayout(1,3));
-		
 		panel2.add(combo1);
 		panel2.add(combo2);
 		panel2.add(options);		
@@ -75,13 +75,8 @@ public class Main extends JFrame {
 		
 		panel1.add(panel2,c);
 		
-		//scroll.setLayout(new ScrollPaneLayout());
-		
-		scroll.add(new JLabel("oui"));
-		
 		c.ipady = 400;
 		c.weightx = 0.0;
-		//c.gridwidth = 3;
 		c.gridx = 0;
 		c.gridy = 1;
 		
