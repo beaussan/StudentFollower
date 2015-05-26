@@ -15,7 +15,7 @@ public class Groupe {
 		return new ArrayList<Groupe>(lsGr);
 	}
 
-	public static List<String> getAllString() {
+	public static List<String> getAllStr() {
 		List<String> lsStr = new ArrayList<String>();
 		for (Groupe gr : lsGr) {
 			lsStr.add(gr.getName());
