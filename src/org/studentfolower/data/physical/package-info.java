@@ -5,4 +5,4 @@
  * @author beaussan
  *
  */
-package org.studentfolower.data;
+package org.studentfolower.data.physical;
