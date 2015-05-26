@@ -15,8 +15,20 @@ public class Groupe {
 		return new ArrayList<Groupe>(lsGr);
 	}
 
+	public static void main(String[] args) {
+		for (int i = 0; i < 9; i++) {
+			String tmp = "abcdefghijk";
+			for (int j = 0; j < tmp.length(); j++) {
+				new Groupe(i + " : " + tmp.charAt(j));
+			}
+		}
+		System.out.println(Groupe.getAll());
+		System.out.println(Groupe.getAll().size());
+	}
+
 	private final int id;
 	private Profesor ref;
+
 	private final List<Etudiant> lsEtu = new ArrayList<Etudiant>();
 
 	private final String name;
@@ -145,7 +157,7 @@ public class Groupe {
 
 	@Override
 	public String toString() {
-		return "Groupe [lsGr=" + lsGr + ", id=" + id + ", ref=" + ref
-				+ ", lsEtu=" + lsEtu + ", name=" + name + "]";
+		return "Groupe [id=" + id + ", ref=" + ref + ", lsEtu=" + lsEtu
+				+ ", name=" + name + "]";
 	}
 }

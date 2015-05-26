@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.studentfolower.data.physical.Etudiant;
+import org.studentfolower.data.physical.Humain;
 import org.studentfolower.data.physical.Profesor;
 
 public class Cour {
@@ -136,6 +137,18 @@ public class Cour {
 		result = prime * result + id;
 		result = prime * result + ((prof == null) ? 0 : prof.hashCode());
 		return result;
+	}
+
+	public boolean setAbs(Etudiant etu) {
+		return abs.add(etu);
+	}
+
+	public boolean setAbs(int idEtu) {
+		return abs.add((Etudiant) Humain.getAllHumains().get(idEtu));
+	}
+
+	public boolean setRetard(Etudiant etu) {
+		return retards.add(etu);
 	}
 
 	@Override

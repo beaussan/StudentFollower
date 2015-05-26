@@ -8,6 +8,10 @@ public class Salle {
 	private static int counter = 0;
 	private static List<Salle> lsSalle = new ArrayList<Salle>();
 
+	public static List<Salle> getAll() {
+		return new ArrayList<Salle>(lsSalle);
+	}
+
 	public static Salle getSalle(int id) {
 		try {
 			return lsSalle.get(id);
@@ -54,10 +58,6 @@ public class Salle {
 			return false;
 		}
 		return true;
-	}
-
-	public List<Salle> getAll() {
-		return new ArrayList<>(lsSalle);
 	}
 
 	public int getId() {
