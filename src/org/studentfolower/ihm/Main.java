@@ -18,6 +18,16 @@ import org.studentfolower.data.management.Groupe;
 import org.studentfolower.data.physical.Salle;
 import org.studentfolower.util.ArrayUtils;
 
+/**
+ * Modélise l'écran principal de l'application,
+ * avec deux ComboBox pour le groupe et la salle,
+ * un bouton pour les options,
+ * un JScrollPane pour l'affichage des élèves du cours 
+ * et trois autres boutons pour changer de vue
+ * 
+ * @author MoulardS
+ */
+
 public class Main extends JFrame {
 	
 	JButton lol = new JButton("mdr");
@@ -114,7 +124,6 @@ public class Main extends JFrame {
 				new Salle(i + " : " + tmp.charAt(j));
 			}
 		}
-		
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
