@@ -10,8 +10,7 @@ public class ArrayUtils {
 		return stockArr;
 	}
 
-	public ArrayUtils() {
-		// TODO Auto-generated constructor stub
+	private ArrayUtils() {
 	}
 
 }
