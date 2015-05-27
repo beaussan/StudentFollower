@@ -54,8 +54,9 @@ public class Main extends JFrame {
 
 		this.setPreferredSize(new Dimension(330, 500));
 		this.setTitle("StudentFollower");
-		this.setLocationRelativeTo(null);
+		this.setLocation(700, 250);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setUndecorated(true);
 
 		panel2.setLayout(new GridLayout(1, 3));
 		panel2.add(combo1);
@@ -109,18 +110,21 @@ public class Main extends JFrame {
 				int code = JOptionPane.showOptionDialog(panel1, null, "Options",
 						0, JOptionPane.PLAIN_MESSAGE, null, stropt, null);
 				
+				if (code == 0) {
+					
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							new Historique();
+						}
+					});
+					
+				}
+				
 			}
 		});
-
-	}
-
-	class ButtonLis implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-
-		}
+		
+		
 
 	}
 
