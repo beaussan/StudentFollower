@@ -1,6 +1,8 @@
 package org.studentfolower.ihm;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -20,12 +22,9 @@ import javax.swing.SwingUtilities;
 
 public class Historique extends JFrame {
 	
-	private JPanel panel1 = new JPanel();
 	private JButton back = new JButton("Retour");
 	
 	public Historique() {
-		
-		System.out.println("oui");
 		
 		this.setPreferredSize(new Dimension(330, 500));
 		this.setTitle("StudentFollower : Historique");
@@ -33,22 +32,24 @@ public class Historique extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
 		
-		panel1.setLayout(new GridBagLayout());
-
-		GridBagConstraints c = new GridBagConstraints();
-		
-		c.ipady = 0;
-		c.weightx = 0.5;
-		c.gridx = 3;
-		c.gridy = 3;
-		c.anchor = GridBagConstraints.LAST_LINE_END;
-		
-		panel1.add(back,c);
+		this.setLayout(new BorderLayout());
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		buttonPanel.add(back);
+		this.add(buttonPanel,BorderLayout.SOUTH);
 		
 		pack();
 		this.setVisible(true);
 		
 	}
+	
+	/**
+	 * Fonction servant à retourner le bouton back de l'historique
+	 * 
+	 * @return le bouton back
+	 */
+	
+	public JButton getBack() {return back;}
 	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {

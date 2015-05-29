@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -107,24 +105,29 @@ public class Main extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 
 				String[] stropt = { "Historique", "Statistiques" };
-				int code = JOptionPane.showOptionDialog(panel1, null, "Options",
-						0, JOptionPane.PLAIN_MESSAGE, null, stropt, null);
-				
+				int code = JOptionPane.showOptionDialog(panel1, null,
+						"Options", 0, JOptionPane.PLAIN_MESSAGE, null, stropt,
+						null);
+
 				if (code == 0) {
-					
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							new Historique();
-						}
-					});
-					
+
+					final Historique historique = new Historique();
+
+					historique.getBack().addActionListener(
+							new java.awt.event.ActionListener() {
+								@Override
+								public void actionPerformed(
+										java.awt.event.ActionEvent evt) {
+									
+									historique.setVisible(false);
+
+								}
+							});
+
 				}
-				
+
 			}
 		});
-		
-		
 
 	}
 
