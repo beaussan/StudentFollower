@@ -3,16 +3,15 @@ package org.studentfolower.ihm;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.sql.Date;
-import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+
+import org.jdesktop.swingx.JXDatePicker;
 
 /**
  * 
@@ -26,8 +25,6 @@ import javax.swing.SwingUtilities;
 public class Historique extends JFrame {
 
 	private JButton back = new JButton("Retour");
-	private JButton cal = new JButton("C");
-	private JTextField field = new JTextField("//");
 
 	public Historique() {
 
@@ -36,7 +33,8 @@ public class Historique extends JFrame {
 		this.setLocation(700, 250);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
-
+		
+		/*
 		String daystr[] = new String[31];
 		for (int i = 1; i <= 31; i++) {
 			if (i < 10) {
@@ -65,23 +63,43 @@ public class Historique extends JFrame {
 		JComboBox<String> day = new JComboBox<String>(daystr);
 		JComboBox<String> month = new JComboBox<String>(monthstr);
 		JComboBox<String> year = new JComboBox<String>(yearstr);
+		*/
 
+		/*
+		JPanel boxPanel = new JPanel();
+		boxPanel.setLayout(new GridLayout(1, 3));
+		boxPanel.add(day);
+		boxPanel.add(month);
+		boxPanel.add(year);
+		this.add(boxPanel, BorderLayout.NORTH);
+		*/
+		
 		this.setLayout(new BorderLayout());
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		buttonPanel.add(back);
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		
+		/*UtilDateModel model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Aujourd'hui");
+		p.put("text.month", "Mois");
+		p.put("text.year", "Année");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel,null);
+		Date selectedDate = (Date) datePicker.getModel().getValue();
 
-		JPanel boxPanel = new JPanel();
-		boxPanel.setLayout(new GridLayout(1, 4));
-		boxPanel.add(day);
-		boxPanel.add(month);
-		boxPanel.add(year);
-		boxPanel.add(cal);
-		this.add(boxPanel, BorderLayout.NORTH);
+		this.add(datePicker,BorderLayout.NORTH);*/
+		
+		JXDatePicker picker = new JXDatePicker();
+        picker.setDate(Calendar.getInstance().getTime());
+        picker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+
+        this.add(picker,BorderLayout.NORTH);
 
 		pack();
 		this.setVisible(true);
+		
 	}
 
 	/**
@@ -93,7 +111,7 @@ public class Historique extends JFrame {
 	public JButton getBack() {
 		return back;
 	}
-
+	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
