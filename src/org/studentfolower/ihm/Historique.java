@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 /**
@@ -23,6 +24,8 @@ import javax.swing.SwingUtilities;
 public class Historique extends JFrame {
 	
 	private JButton back = new JButton("Retour");
+	private JButton cal = new JButton("C");
+	private JTextField field = new JTextField("//");
 	
 	public Historique() {
 		
@@ -38,8 +41,28 @@ public class Historique extends JFrame {
 		buttonPanel.add(back);
 		this.add(buttonPanel,BorderLayout.SOUTH);
 		
+		JPanel fieldPanel = new JPanel();
+		fieldPanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 0;
+		c.weightx = 0.5;
+		c.gridwidth = 2;
+		c.gridx = 0;
+		c.gridy = 0;
+		fieldPanel.add(field,c);
+		c.ipady = 0;
+		c.weightx = 0.5;
+		c.gridwidth = 1;
+		c.gridx = 2;
+		c.gridy = 0;
+		fieldPanel.add(cal);
+		this.add(fieldPanel, BorderLayout.NORTH);
+		
 		pack();
 		this.setVisible(true);
+		
+		JPanel mainPanel = new JPanel();
 		
 	}
 	
