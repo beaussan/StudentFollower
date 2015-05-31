@@ -118,7 +118,7 @@ public class Main extends JFrame {
 								@Override
 								public void actionPerformed(
 										java.awt.event.ActionEvent evt) {
-									
+
 									historique.setVisible(false);
 
 								}
