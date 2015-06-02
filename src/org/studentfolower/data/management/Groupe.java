@@ -1,6 +1,21 @@
+/*
+ * This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.studentfolower.data.management;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +53,7 @@ public class Groupe {
 	private Profesor ref;
 
 	private final List<Etudiant> lsEtu = new ArrayList<Etudiant>();
+	private Map<Cour, Map<Etudiant, Status>> mapStatus = new HashMap<Cour, Map<Etudiant, Status>>();
 
 	private final String name;
 
@@ -67,6 +83,13 @@ public class Groupe {
 
 	public boolean add(Etudiant arg0) {
 		return lsEtu.add(arg0);
+	}
+
+	public void addCour(Cour cour) {
+		mapStatus.put(cour, new HashMap<Etudiant, Status>());
+		for (Etudiant etudiant : lsEtu) {
+			mapStatus.get(cour).put(etudiant, Status.PRESENT);
+		}
 	}
 
 	public boolean contains(Object arg0) {
@@ -128,8 +151,71 @@ public class Groupe {
 		return ref;
 	}
 
-	public Map<Etudiant, Integer> getStatAbs() {
-		return null; // TODO a faire
+	public Map<Etudiant, Map<Status, Integer>> getStatAbs() {
+		HashMap<Etudiant, Map<Status, Integer>> retVal = new HashMap<Etudiant, Map<Status, Integer>>();
+		for (Etudiant etudiant : lsEtu) {
+			int pres = 0, abs = 0, retard = 0;
+			retVal.put(etudiant, new HashMap<Status, Integer>());
+			for (Cour cour : mapStatus.keySet()) {
+				switch (mapStatus.get(cour).get(etudiant)) {
+				case PRESENT:
+					pres++;
+					break;
+				case ABSENT:
+					abs++;
+					break;
+				case RETARD:
+					retard++;
+					break;
+				default:
+					break;
+				}
+			}
+			retVal.get(etudiant).put(Status.PRESENT, pres);
+			retVal.get(etudiant).put(Status.RETARD, retard);
+			retVal.get(etudiant).put(Status.ABSENT, abs);
+		}
+		return retVal;
+	}
+
+	public Map<Etudiant, Map<Status, Integer>> getStatAbs(Profesor prof) {
+		HashMap<Etudiant, Map<Status, Integer>> retVal = new HashMap<Etudiant, Map<Status, Integer>>();
+		for (Etudiant etudiant : lsEtu) {
+			int pres = 0, abs = 0, retard = 0;
+			retVal.put(etudiant, new HashMap<Status, Integer>());
+			for (Cour cour : mapStatus.keySet()) {
+				if (cour.getProfId() != prof.getId()) {
+					continue;
+				}
+				switch (mapStatus.get(cour).get(etudiant)) {
+				case PRESENT:
+					pres++;
+					break;
+				case ABSENT:
+					abs++;
+					break;
+				case RETARD:
+					retard++;
+					break;
+				default:
+					break;
+				}
+			}
+			retVal.get(etudiant).put(Status.PRESENT, pres);
+			retVal.get(etudiant).put(Status.RETARD, retard);
+			retVal.get(etudiant).put(Status.ABSENT, abs);
+		}
+		return retVal;
+	}
+
+	public Status getStatusEtu(Cour cour, Etudiant etu) {
+		if (!mapStatus.containsKey(cour)) {
+			return null;
+		}
+		if (!mapStatus.get(cour).containsKey(etu)) {
+			return null;
+		}
+		return mapStatus.get(cour).get(etu);
 	}
 
 	@Override
@@ -155,8 +241,30 @@ public class Groupe {
 		return lsEtu.remove(arg0);
 	}
 
+	public void setNextStatusEtu(Cour cour, Etudiant etu) {
+		if (!mapStatus.containsKey(cour)) {
+			return;
+		}
+		if (!mapStatus.get(cour).containsKey(etu)) {
+			return;
+		}
+		Status[] tmp = Status.values();
+		int nmb = mapStatus.get(cour).get(etu).ordinal();
+		mapStatus.get(cour).put(etu, tmp[(nmb + 1) % tmp.length]);
+	}
+
 	public void setRef(Profesor ref) {
 		this.ref = ref;
+	}
+
+	public void setStatusEtu(Cour cour, Etudiant etu, Status sta) {
+		if (!mapStatus.containsKey(cour)) {
+			return;
+		}
+		if (!mapStatus.get(cour).containsKey(etu)) {
+			return;
+		}
+		mapStatus.get(cour).put(etu, sta);
 	}
 
 	public int size() {

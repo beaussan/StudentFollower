@@ -1,8 +1,24 @@
+/*
+ * This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.studentfolower.data.management;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.studentfolower.data.physical.Etudiant;
 import org.studentfolower.data.physical.Humain;
@@ -10,10 +26,33 @@ import org.studentfolower.data.physical.Profesor;
 
 public class Cour {
 	private static int counter = 0;
+	private static Map<Jour, Map<Profesor, List<Cour>>> courParJour = new HashMap<Jour, Map<Profesor, List<Cour>>>();
 	private static List<Cour> lsCour = new ArrayList<Cour>();
 
 	public static List<Cour> getAll() {
 		return new ArrayList<Cour>(lsCour);
+	}
+
+	public static List<Cour> getBy(Date date, Profesor prof) {
+		Jour j = new Jour(date);
+		if (!courParJour.containsKey(j)) {
+			return null;
+		}
+		if (!courParJour.get(j).containsKey(prof)) {
+			return null;
+		}
+		return courParJour.get(j).get(prof);
+	}
+
+	public static List<Cour> getBy(Jour j, Profesor prof) {
+
+		if (!courParJour.containsKey(j)) {
+			return null;
+		}
+		if (!courParJour.get(j).containsKey(prof)) {
+			return null;
+		}
+		return courParJour.get(j).get(prof);
 	}
 
 	public static Cour getCour(int id) {
@@ -26,14 +65,13 @@ public class Cour {
 
 	private final int id;
 
+	private final Jour jCour;
+
 	private final Date heurDebut;
 	private final Date heurFin;
 
 	private final Groupe gr;
 	private final Profesor prof;
-
-	private final List<Etudiant> retards = new ArrayList<Etudiant>();
-	private final List<Etudiant> abs = new ArrayList<Etudiant>();
 
 	/**
 	 * @param heurDebut
@@ -50,6 +88,16 @@ public class Cour {
 		id = counter;
 		counter++;
 		lsCour.add(this);
+		jCour = new Jour(heurDebut);
+
+		if (!courParJour.containsKey(jCour)) {
+			courParJour.put(jCour, new HashMap<Profesor, List<Cour>>());
+		}
+		if (!courParJour.get(jCour).containsKey(prof)) {
+			courParJour.get(jCour).put(prof, new ArrayList<Cour>());
+		}
+		courParJour.get(jCour).get(prof).add(this);
+
 	}
 
 	@Override
@@ -139,16 +187,37 @@ public class Cour {
 		return result;
 	}
 
-	public boolean setAbs(Etudiant etu) {
-		return abs.add(etu);
+	public void setAbs(Etudiant etu) {
+		gr.setStatusEtu(this, etu, Status.ABSENT);
 	}
 
-	public boolean setAbs(int idEtu) {
-		return abs.add((Etudiant) Humain.getAllHumains().get(idEtu));
+	public void setAbs(int idEtu) {
+		setAbs((Etudiant) Humain.getAllHumains().get(idEtu));
 	}
 
-	public boolean setRetard(Etudiant etu) {
-		return retards.add(etu);
+	public void setNextStatus(Etudiant etu) {
+		gr.setNextStatusEtu(this, etu);
+		switch (gr.getStatusEtu(this, etu)) {
+		case ABSENT:
+
+			break;
+
+		case RETARD:
+			break;
+		case PRESENT:
+
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void setPresent(Etudiant etu) {
+		gr.setStatusEtu(this, etu, Status.PRESENT);
+	}
+
+	public void setRetard(Etudiant etu) {
+		gr.setStatusEtu(this, etu, Status.RETARD);
 	}
 
 	@Override
