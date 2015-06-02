@@ -65,6 +65,7 @@ public class EtuListeners implements MouseListener {
 			longClick();
 		} else {
 			singleClick();
+			e.getComponent().repaint();
 		}
 	}
 

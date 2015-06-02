@@ -143,6 +143,10 @@ public class Groupe {
 		return id;
 	}
 
+	public List<Etudiant> getLsEtu() {
+		return lsEtu;
+	}
+
 	public String getName() {
 		return name;
 	}

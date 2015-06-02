@@ -98,6 +98,8 @@ public class Cour {
 		}
 		courParJour.get(jCour).get(prof).add(this);
 
+		gr.addCour(this);
+
 	}
 
 	@Override
@@ -172,6 +174,10 @@ public class Cour {
 
 	public int getProfId() {
 		return prof.getId();
+	}
+
+	public Status getStatuEtu(Etudiant etu) {
+		return gr.getStatusEtu(this, etu);
 	}
 
 	@Override

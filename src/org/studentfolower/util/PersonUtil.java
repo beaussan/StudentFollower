@@ -22,34 +22,25 @@ import javax.imageio.ImageIO;
 
 public class PersonUtil {
 
+	public static final boolean offline = false;
+
 	public static BufferedImage getImage(String name, int size) {
-		try {
-			URL imgUrl = new URL("https://sigil.cupcake.io/" + name);
-			BufferedImage img = ImageIO.read(imgUrl);
-			return img;
-		} catch (Exception e) {
-			try {
-				System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
-				System.setProperty("http.proxyPort", "3128");
-				System.setProperty("https.proxyHost", "cache.univ-lille1.fr");
-				System.setProperty("https.proxyPort", "3128");
-				URL imgUrl = new URL("https://sigil.cupcake.io/" + name);
-				BufferedImage img = ImageIO.read(imgUrl);
-				System.setProperty("http.proxyHost", null);
-				System.setProperty("http.proxyPort", null);
-				System.setProperty("https.proxyHost", null);
-				System.setProperty("https.proxyPort", null);
-				return img;
-
-			} catch (Exception e2) {
-
-				e.printStackTrace(System.err);
-				System.out
-						.println("HEY ! IL Y A INTERNET SUR UN TELEPHONE PORTABLE ! PAS DE FICHU PROXY !!!!!");
-			}
-
+		BufferedImage img = null;
+		System.out.println("Retriving picture for " + name.split("@")[0] + " ("
+				+ size + "*" + size + ") ...");
+		if (!offline) {
+			img = getOnline(name, size);
 		}
-		// au cas ou, il y a toujours la merde x)
+		if (img == null) {
+			img = getOfline(name, size);
+		}
+
+		System.out.println("Done!");
+		return img;
+
+	}
+
+	private static BufferedImage getOfline(String name, int size) {
 		BufferedImage img = new BufferedImage(size, size,
 				BufferedImage.TYPE_INT_RGB);
 		Random ran = new Random(name.hashCode());
@@ -65,7 +56,38 @@ public class PersonUtil {
 			}
 		}
 		return img;
+	}
 
+	private static BufferedImage getOnline(String name, int size) {
+		try {
+			URL imgUrl = new URL("https://sigil.cupcake.io/" + name + "?w="
+					+ size);
+			BufferedImage img = ImageIO.read(imgUrl);
+			return img;
+		} catch (Exception e) {
+			try {
+				System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
+				System.setProperty("http.proxyPort", "3128");
+				System.setProperty("https.proxyHost", "cache.univ-lille1.fr");
+				System.setProperty("https.proxyPort", "3128");
+				URL imgUrl = new URL("https://sigil.cupcake.io/" + name + "?w"
+						+ size);
+				BufferedImage img = ImageIO.read(imgUrl);
+				System.setProperty("http.proxyHost", null);
+				System.setProperty("http.proxyPort", null);
+				System.setProperty("https.proxyHost", null);
+				System.setProperty("https.proxyPort", null);
+				return img;
+
+			} catch (Exception e2) {
+
+				e.printStackTrace(System.err);
+				System.out
+						.println("HEY ! IL Y A INTERNET SUR UN TELEPHONE PORTABLE ! PAS DE FICHU PROXY !!!!!");
+			}
+
+		}
+		return null;
 	}
 
 	private PersonUtil() {

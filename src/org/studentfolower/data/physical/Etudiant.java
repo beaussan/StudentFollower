@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.studentfolower.data.management.Groupe;
+import org.studentfolower.ihm.FrameFactory;
 import org.studentfolower.util.PersonUtil;
 
 public class Etudiant extends Humain {
@@ -56,11 +57,20 @@ public class Etudiant extends Humain {
 		return group;
 	}
 
+	@Deprecated
 	public BufferedImage getImg() {
 		if (img == null) {
 			return PersonUtil.getImage(getEmail() + "-" + getName(), 255);
 		}
 		return img;
+	}
+
+	public List<BufferedImage> getLsImg() {
+		String str = getEmail() + "-" + getName();
+		List<BufferedImage> retVal = new ArrayList<BufferedImage>();
+		retVal.add(PersonUtil.getImage(str, FrameFactory.SIZE_LARGE));
+		retVal.add(PersonUtil.getImage(str, FrameFactory.SIZE_SMALL));
+		return retVal;
 	}
 
 	public void setGroup(Groupe group) {
