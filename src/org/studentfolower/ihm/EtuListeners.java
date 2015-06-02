@@ -34,24 +34,21 @@ public class EtuListeners implements MouseListener {
 	}
 
 	private void longClick() {
-
+		// TODO TODO TODO TODO TODO TODO faire la popup des info de l'étudiant
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -76,4 +73,3 @@ public class EtuListeners implements MouseListener {
 	}
 
 }
-
