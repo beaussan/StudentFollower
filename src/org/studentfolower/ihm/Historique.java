@@ -34,24 +34,24 @@ public class Historique extends JFrame {
 		this.setLocation(700, 250);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
-		
+
 		this.setLayout(new BorderLayout());
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		buttonPanel.add(back);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-		
-		JXDatePicker picker = new JXDatePicker();
-        picker.setDate(Calendar.getInstance().getTime());
-        picker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
 
-        this.add(picker,BorderLayout.NORTH);
-        
-        //Date date = picker.getDate();
+		JXDatePicker picker = new JXDatePicker();
+		picker.setDate(Calendar.getInstance().getTime());
+		picker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+
+		this.add(picker, BorderLayout.NORTH);
+
+		Date date = picker.getDate();
 
 		pack();
 		this.setVisible(true);
-		
+
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class Historique extends JFrame {
 	public JButton getBack() {
 		return back;
 	}
-	
+
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
