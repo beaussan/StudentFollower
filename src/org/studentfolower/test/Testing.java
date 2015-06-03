@@ -50,7 +50,7 @@ public class Testing extends JPanel {
 				// sf.setType(RenderType.PICTURE_TEXT);
 				FrameFactory ff = new FrameFactory(Cour.getAll().get(0));
 				fram.add(ff);
-				ff.setRenderType(RenderType.TEXT_ONLY);
+				ff.setRenderType(RenderType.PICTURE_TEXT);
 				fram.setPreferredSize(new Dimension(400, 400));
 				fram.setLocation(400, 400);
 				fram.pack();

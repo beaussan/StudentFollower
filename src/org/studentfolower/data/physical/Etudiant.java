@@ -23,7 +23,6 @@ import org.studentfolower.ihm.FrameFactory;
 import org.studentfolower.util.PersonUtil;
 
 public class Etudiant extends Humain {
-
 	private static List<Etudiant> lsEtu = new ArrayList<Etudiant>();
 
 	public static List<Etudiant> getAllEtu() {
@@ -33,6 +32,8 @@ public class Etudiant extends Humain {
 	public static Etudiant getById(int id) {
 		return (Etudiant) Humain.getAllHumains().get(id);
 	}
+
+	private List<BufferedImage> lsImgs;
 
 	private Groupe group;
 	private BufferedImage img;
@@ -66,11 +67,13 @@ public class Etudiant extends Humain {
 	}
 
 	public List<BufferedImage> getLsImg() {
-		String str = getEmail() + "-" + getName();
-		List<BufferedImage> retVal = new ArrayList<BufferedImage>();
-		retVal.add(PersonUtil.getImage(str, FrameFactory.SIZE_LARGE));
-		retVal.add(PersonUtil.getImage(str, FrameFactory.SIZE_SMALL));
-		return retVal;
+		if (lsImgs == null) {
+			String str = getEmail() + "-" + getName();
+			lsImgs = new ArrayList<BufferedImage>();
+			lsImgs.add(PersonUtil.getImage(str, FrameFactory.SIZE_LARGE));
+			lsImgs.add(PersonUtil.getImage(str, FrameFactory.SIZE_SMALL));
+		}
+		return lsImgs;
 	}
 
 	public void setGroup(Groupe group) {

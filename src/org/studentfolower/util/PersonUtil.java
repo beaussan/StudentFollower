@@ -22,7 +22,8 @@ import javax.imageio.ImageIO;
 
 public class PersonUtil {
 
-	public static final boolean offline = false;
+	public static boolean offline = false;
+	public static boolean isProxyOn = false;
 
 	public static BufferedImage getImage(String name, int size) {
 		BufferedImage img = null;
@@ -66,18 +67,17 @@ public class PersonUtil {
 			return img;
 		} catch (Exception e) {
 			try {
-				System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
-				System.setProperty("http.proxyPort", "3128");
-				System.setProperty("https.proxyHost", "cache.univ-lille1.fr");
-				System.setProperty("https.proxyPort", "3128");
-				URL imgUrl = new URL("https://sigil.cupcake.io/" + name + "?w"
-						+ size);
-				BufferedImage img = ImageIO.read(imgUrl);
-				System.setProperty("http.proxyHost", null);
-				System.setProperty("http.proxyPort", null);
-				System.setProperty("https.proxyHost", null);
-				System.setProperty("https.proxyPort", null);
-				return img;
+				if (!isProxyOn) {
+					System.out.println("Proxy detected !");
+					System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
+					System.setProperty("http.proxyPort", "3128");
+					System.setProperty("https.proxyHost",
+							"cache.univ-lille1.fr");
+					System.setProperty("https.proxyPort", "3128");
+					Thread.sleep(300);
+					isProxyOn = true;
+					return getOnline(name, size);
+				}
 
 			} catch (Exception e2) {
 
@@ -87,6 +87,9 @@ public class PersonUtil {
 			}
 
 		}
+		offline = true;
+		System.out
+				.println("HEY ! IL Y A INTERNET SUR UN TELEPHONE PORTABLE !!! ET PAS DE FICHU PROXY !!!!!");
 		return null;
 	}
 
