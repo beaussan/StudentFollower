@@ -5,12 +5,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -21,9 +23,11 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import org.studentfolower.data.management.Cour;
 import org.studentfolower.data.management.Groupe;
-import org.studentfolower.data.physical.Salle;
 import org.studentfolower.util.ArrayUtils;
+import org.studentfolower.util.DataPopulating;
+import org.studentfolower.util.PersonUtil;
 
 /**
  * Modélise l'écran principal de l'application, avec deux ComboBox pour le
@@ -45,17 +49,60 @@ public class Main extends JFrame {
 	private JButton bb = new JButton("b");
 	private JButton bc = new JButton("c");
 
+	private JComboBox<String> combo1;
+	private JComboBox<String> combo2;
+
+	private DefaultComboBoxModel model;
+
+	private FrameFactory ff;
+	private JScrollPane scroll;
+
 	public Main() {
 
-		List<String> ls1 = Salle.getAllStr();
-		List<String> ls2 = Groupe.getAllStr();
+		List<String> ls1 = Groupe.getAllStr();
 
-		JComboBox<String> combo1 = new JComboBox<String>(
-				ArrayUtils.toArray(ls1));
-		JComboBox<String> combo2 = new JComboBox<String>(
-				ArrayUtils.toArray(ls2));
+		combo1 = new JComboBox<String>(ArrayUtils.toArray(ls1));
+		Groupe grp = Groupe.getAll().get(combo1.getSelectedIndex());
 
-		JScrollPane scroll = new JScrollPane(panel3);
+		combo2 = new JComboBox<String>(ArrayUtils.toArray(Cour.getBy(grp)
+				.values()));
+
+		combo1.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+
+				Groupe g = Groupe.getAll().get(combo1.getSelectedIndex());
+
+				DefaultComboBoxModel mod = new DefaultComboBoxModel(ArrayUtils
+						.toArray(Cour.getBy(g).values()));
+
+				combo2.setModel(mod);
+
+				ff.setCour((Cour) Cour.getBy(g).keySet().toArray()[combo2
+						.getSelectedIndex()]);
+
+			}
+
+		});
+
+		combo2.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				Groupe g = Groupe.getAll().get(combo1.getSelectedIndex());
+				ff.setCour((Cour) Cour.getBy(g).keySet().toArray()[combo2
+						.getSelectedIndex()]);
+
+			}
+		});
+
+		Groupe g = Groupe.getAll().get(combo1.getSelectedIndex());
+		ff = new FrameFactory(
+				(Cour) Cour.getBy(g).keySet().toArray()[combo2
+						.getSelectedIndex()]);
+		ff.setRenderType(RenderType.PICTURE_TEXT);
+		scroll = new JScrollPane(ff);
 
 		this.setPreferredSize(new Dimension(330, 500));
 		this.setTitle("StudentFollower");
@@ -101,6 +148,13 @@ public class Main extends JFrame {
 
 		panel1.add(panel4, c);
 
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 0;
+		c.weightx = 0.5;
+		c.gridwidth = 3;
+		c.gridx = 0;
+		c.gridy = 0;
+
 		this.add(panel1);
 
 		pack();
@@ -136,6 +190,36 @@ public class Main extends JFrame {
 			}
 		});
 
+		ba.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				
+				ff.setRenderType(RenderType.TEXT_ONLY);
+				repaint();
+
+			}
+		});
+
+		bb.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+				ff.setRenderType(RenderType.PICTURE_TEXT);
+				repaint();
+
+			}
+		});
+
+		bc.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+				ff.setRenderType(RenderType.PICTURE_ONLY);
+				repaint();
+
+			}
+		});
+
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,
 				0, false);
 		Action escapeAction = new AbstractAction() {
@@ -148,22 +232,16 @@ public class Main extends JFrame {
 		getRootPane().getActionMap().put("ESCAPE", escapeAction);
 
 	}
-
+	
+	/**
+	 * Fonction principale
+	 */
+	
 	public static void main(String[] args) {
 
-		for (int i = 0; i < 10; i++) {
-			String tmp = "abcdefghijk";
-			for (int j = 0; j < tmp.length(); j++) {
-				new Groupe(i + " : " + tmp.charAt(j));
-			}
-		}
+		PersonUtil.offline = true;
 
-		for (int i = 0; i < 10; i++) {
-			String tmp = "lmnopqrstuv";
-			for (int j = 0; j < tmp.length(); j++) {
-				new Salle(i + " : " + tmp.charAt(j));
-			}
-		}
+		DataPopulating.createAll();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

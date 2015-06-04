@@ -14,7 +14,9 @@
  */
 package org.studentfolower.ihm;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,21 +59,25 @@ public class FrameFactory extends JPanel {
 	}
 
 	public void setCour(Cour cour) {
+		System.out.println("Cour changé");
+		removeAll();
 		lsFrames = new ArrayList<SingleFrame>();
 		this.cour = cour;
 		gr = cour.getGr();
 		for (Etudiant etu : gr.getLsEtu()) {
 			lsFrames.add(new SingleFrame(etu, cour));
 		}
+		repaint();
 	}
 
 	private void setGrindLayout() {
-		// TODO I KNOW NOTHING AOBUT LAYOUTS IN JAVA :(
+		this.setLayout(new GridLayout((lsFrames.size()/2)+1,2));
 	}
 
 	private void setLineLayout() {
-		// TODO I KNOW NOTHING AOBUT LAYOUTS IN JAVA :(
-
+		
+		GridLayout grid = new GridLayout(lsFrames.size()+1,1);
+		this.setLayout(grid);
 	}
 
 	public void setRenderType(RenderType type) {
@@ -90,6 +96,7 @@ public class FrameFactory extends JPanel {
 		for (SingleFrame singleFrame : lsFrames) {
 			singleFrame.setType(type);
 			add(singleFrame);
+			
 		}
 		repaint();
 	}

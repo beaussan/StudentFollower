@@ -37,7 +37,7 @@ public class DataPopulating {
 
 	@SuppressWarnings("deprecation")
 	public static void createCours() {
-		// TODO à fair à la main....
+		// TODO ï¿½ fair ï¿½ la main....
 
 		List<Groupe> ls = Groupe.getAll();
 		Profesor prof = Profesor.getAll().get(0);
@@ -48,6 +48,8 @@ public class DataPopulating {
 					new Date(2015, 6, 2 + (cpt % 2), 10 + (cpt * 2 + 4), 0, 0),
 					groupe, prof);
 		}
+		new Cour(new Date(2015, 6, 1, 4, 0, 0),
+					new Date(2015, 6, 1, 20, 0, 0), ls.get(0), prof);
 	}
 
 	public static void createGroups() {
@@ -64,7 +66,7 @@ public class DataPopulating {
 
 	public static void createProfs() {
 		for (int i = 0; i < 1; i++) {
-			new Profesor("Prof n°" + i + 1);
+			new Profesor("Prof nï¿½" + i + 1);
 		}
 	}
 
