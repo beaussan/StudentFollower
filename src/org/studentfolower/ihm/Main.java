@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 
 import org.studentfolower.data.management.Cour;
 import org.studentfolower.data.management.Groupe;
+import org.studentfolower.data.physical.Profesor;
 import org.studentfolower.util.ArrayUtils;
 import org.studentfolower.util.DataPopulating;
 import org.studentfolower.util.PersonUtil;

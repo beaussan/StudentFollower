@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXDatePicker;
 import org.studentfolower.data.management.Cour;
+import org.studentfolower.data.physical.Profesor;
 
 /**
  * 
@@ -28,12 +29,16 @@ import org.studentfolower.data.management.Cour;
  */
 
 public class Historique extends JFrame {
-	
-	//TODO All the buttons and shit
+
+	// TODO All the buttons and shit
 
 	private JButton back = new JButton("Retour");
+
+	private Map<Cour, HistButton> map = new HashMap<Cour, HistButton>();
 	
-	private Map<Cour,JButton> map = new HashMap<Cour,JButton>();
+	private JPanel mainPanel;
+	
+	private HistButton butt;
 
 	public Historique() {
 
@@ -57,24 +62,48 @@ public class Historique extends JFrame {
 
 		Date date = picker.getDate();
 		
-		//TODO is null really an ok argument?
+		//Deconne à partir d'ici.
+		
+		/*
+		if (date != null) {
 
-		/*for (Cour cour : Cour.getBy(date, null)) {
-		 
-		 //Seems like no. NullPointer Exception
-		  
-			map.put(cour, new JButton(cour.toString()));
+			for (Cour cour : Cour.getBy(date, Profesor.getAll().get(0))) {
+				// NullPointerException ici, j'sais pas pourquoi.
+				//TODO S'occuper de ça. Moi je trouve pas le problème :/ p-e dans la génération de data.
+				map.put(cour, new HistButton(cour, cour.toString()));
+			}
+
 		}
+
+
+		//Decone plus à partir d'ici. En comm quand même pour éviter les problèmes.
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new GridLayout(1, 0));
+
 		
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(1,0));
+		//Génération de boutons une fois la date choisie + listener pour afficher le cour.
 		for (Cour cour : map.keySet()) {
+			butt = map.get(cour);
+			butt.addActionListener(new java.awt.event.ActionListener() {
+				@Override
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					
+					mainPanel.removeAll();
+					FrameFactory f = butt.getFrameFactory();
+					mainPanel.add(f);
+					repaint();
+
+				}
+			});
+
 			mainPanel.add(map.get(cour));
+			
 		}
 		
+
 		this.add(mainPanel);
 		*/
-		
+
 		pack();
 		this.setVisible(true);
 
