@@ -28,6 +28,10 @@ public class Cour {
 	private static int counter = 0;
 	private static Map<Jour, Map<Profesor, List<Cour>>> courParJour = new HashMap<Jour, Map<Profesor, List<Cour>>>();
 	private static List<Cour> lsCour = new ArrayList<Cour>();
+	
+	public List<Cour> getLsCour() {
+		return lsCour;
+	}
 
 	public static List<Cour> getAll() {
 		return new ArrayList<Cour>(lsCour);

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -35,10 +36,14 @@ public class Historique extends JFrame {
 	private JButton back = new JButton("Retour");
 
 	private Map<Cour, HistButton> map = new HashMap<Cour, HistButton>();
-	
+
 	private JPanel mainPanel;
-	
+
 	private HistButton butt;
+
+	private Date date;
+
+	private JXDatePicker picker;
 
 	public Historique() {
 
@@ -54,40 +59,54 @@ public class Historique extends JFrame {
 		buttonPanel.add(back);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		JXDatePicker picker = new JXDatePicker();
+		picker = new JXDatePicker();
 		picker.setDate(Calendar.getInstance().getTime());
 		picker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
 
+		date = picker.getDate();
+
+		picker.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+				date = picker.getDate();
+				System.out.println(date);
+				try {
+					if (Cour.getBy(date, Profesor.getAll().get(0)) != null) {
+						// IndexOutOfBonds ici, j'sais pas pourquoi.
+						// TODO S'occuper de ça. Moi je trouve pas le problème :/
+						// p-e dans la génération de data.
+
+						for (Cour cour : Cour.getBy(date, Profesor.getAll().get(0))) {
+							//Out of bonds ici aussi.
+							map.put(cour, new HistButton(cour, cour.toString()));
+						}
+
+					}
+				} catch (java.lang.IndexOutOfBoundsException e) {
+					e.printStackTrace();
+				} finally {
+					System.out.println("Aucun cours");
+				}
+
+			}
+		});
+
 		this.add(picker, BorderLayout.NORTH);
 
-		Date date = picker.getDate();
+		// Deconne à partir d'ici.
 		
-		//Deconne à partir d'ici.
-		
-		/*
-		if (date != null) {
-
-			for (Cour cour : Cour.getBy(date, Profesor.getAll().get(0))) {
-				// NullPointerException ici, j'sais pas pourquoi.
-				//TODO S'occuper de ça. Moi je trouve pas le problème :/ p-e dans la génération de data.
-				map.put(cour, new HistButton(cour, cour.toString()));
-			}
-
-		}
-
-
-		//Decone plus à partir d'ici. En comm quand même pour éviter les problèmes.
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(1, 0));
+		mainPanel.setLayout(new GridLayout(1, 10));
 
-		
-		//Génération de boutons une fois la date choisie + listener pour afficher le cour.
+		// Génération de boutons une fois la date choisie + listener pour
+		// afficher le cour.
 		for (Cour cour : map.keySet()) {
 			butt = map.get(cour);
 			butt.addActionListener(new java.awt.event.ActionListener() {
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					
+
 					mainPanel.removeAll();
 					FrameFactory f = butt.getFrameFactory();
 					mainPanel.add(f);
@@ -97,12 +116,10 @@ public class Historique extends JFrame {
 			});
 
 			mainPanel.add(map.get(cour));
-			
+
 		}
-		
 
 		this.add(mainPanel);
-		*/
 
 		pack();
 		this.setVisible(true);
