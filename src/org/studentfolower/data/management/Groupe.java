@@ -38,6 +38,14 @@ public class Groupe {
 		return lsStr;
 	}
 
+	public static Map<Groupe, String> getAllStrGr() {
+		Map<Groupe, String> lsStr = new HashMap<Groupe, String>();
+		for (Groupe gr : lsGr) {
+			lsStr.put(gr, gr.getName());
+		}
+		return lsStr;
+	}
+
 	public static void main(String[] args) {
 		for (int i = 0; i < 9; i++) {
 			String tmp = "abcdefghijk";
@@ -53,7 +61,7 @@ public class Groupe {
 	private Profesor ref;
 
 	private final List<Etudiant> lsEtu = new ArrayList<Etudiant>();
-	private Map<Cour, Map<Etudiant, Status>> mapStatus = new HashMap<Cour, Map<Etudiant, Status>>();
+	private final Map<Cour, Map<Etudiant, Status>> mapStatus = new HashMap<Cour, Map<Etudiant, Status>>();
 
 	private final String name;
 
