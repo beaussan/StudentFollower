@@ -14,6 +14,7 @@
  */
 package org.studentfolower.data.management;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,6 +43,17 @@ public class Cour {
 			return null;
 		}
 		return courParJour.get(j).get(prof);
+	}
+
+	public static List<Cour> getBy(Group gr) {
+		List<Cour> retVal = new ArrayList<>();
+		for (Cour cour : lsCour) {
+			if (cour.gr.equals(gr)) {
+				retVal.add(cour);
+			}
+		}
+		return retVal;
+
 	}
 
 	public static List<Cour> getBy(Jour j, Profesor prof) {
@@ -224,6 +236,11 @@ public class Cour {
 
 	public void setRetard(Etudiant etu) {
 		gr.setStatusEtu(this, etu, Status.RETARD);
+	}
+
+	public String toGoodStr() {
+		return heurDebut.getHours() + ":" + heurDebut.getMinutes() + " "
+				+ heurFin.getHours() + ":" + heurFin.getMinutes();
 	}
 
 	@Override
