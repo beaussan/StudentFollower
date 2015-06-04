@@ -34,6 +34,16 @@ public class Cour {
 		return new ArrayList<Cour>(lsCour);
 	}
 
+	public static List<Cour> getAllBy(Group gr) {
+		List<Cour> retVal = new ArrayList<>();
+		for (Cour cour : lsCour) {
+			if (cour.gr.equals(gr)) {
+				retVal.add(cour);
+			}
+		}
+		return retVal;
+	}
+
 	public static Map<Cour, String> getAllStrStr() {
 		Map<Cour, String> lsStr = new HashMap<Cour, String>();
 		for (Cour cr : lsCour) {
@@ -53,15 +63,14 @@ public class Cour {
 		return courParJour.get(j).get(prof);
 	}
 
-	public static List<Cour> getBy(Group gr) {
-		List<Cour> retVal = new ArrayList<>();
+	public static Map<Cour, String> getBy(Group gr) {
+		Map<Cour, String> retVal = new HashMap<>();
 		for (Cour cour : lsCour) {
 			if (cour.gr.equals(gr)) {
-				retVal.add(cour);
+				retVal.put(cour, cour.toGoodStr());
 			}
 		}
 		return retVal;
-
 	}
 
 	public static List<Cour> getBy(Jour j, Profesor prof) {
