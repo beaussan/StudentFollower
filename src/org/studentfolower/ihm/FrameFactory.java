@@ -56,6 +56,15 @@ public class FrameFactory extends JPanel {
 		}
 	}
 
+	public void setCour(Cour cour) {
+		lsFrames = new ArrayList<SingleFrame>();
+		this.cour = cour;
+		gr = cour.getGr();
+		for (Etudiant etu : gr.getLsEtu()) {
+			lsFrames.add(new SingleFrame(etu, cour));
+		}
+	}
+
 	private void setGrindLayout() {
 		// TODO I KNOW NOTHING AOBUT LAYOUTS IN JAVA :(
 	}

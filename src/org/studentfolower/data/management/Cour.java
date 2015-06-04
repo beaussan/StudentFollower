@@ -14,6 +14,7 @@
  */
 package org.studentfolower.data.management;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class Cour {
 		return new ArrayList<Cour>(lsCour);
 	}
 
-	public static List<Cour> getAllBy(Groupe gr) {
+	public static List<Cour> getAllBy(Group gr) {
 		List<Cour> retVal = new ArrayList<>();
 		for (Cour cour : lsCour) {
 			if (cour.gr.equals(gr)) {
@@ -62,7 +63,7 @@ public class Cour {
 		return courParJour.get(j).get(prof);
 	}
 
-	public static Map<Cour, String> getBy(Groupe gr) {
+	public static Map<Cour, String> getBy(Group gr) {
 		Map<Cour, String> retVal = new HashMap<>();
 		for (Cour cour : lsCour) {
 			if (cour.gr.equals(gr)) {
