@@ -34,6 +34,14 @@ public class Cour {
 		return new ArrayList<Cour>(lsCour);
 	}
 
+	public static Map<Cour, String> getAllStrStr() {
+		Map<Cour, String> lsStr = new HashMap<Cour, String>();
+		for (Cour cr : lsCour) {
+			lsStr.put(cr, cr.toGoodStr());
+		}
+		return lsStr;
+	}
+
 	public static List<Cour> getBy(Date date, Profesor prof) {
 		Jour j = new Jour(date);
 		if (!courParJour.containsKey(j)) {
