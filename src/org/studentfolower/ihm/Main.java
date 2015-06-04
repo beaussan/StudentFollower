@@ -38,6 +38,8 @@ import org.studentfolower.util.PersonUtil;
  */
 
 public class Main extends JFrame {
+	
+	//TODO Fix the FramingFactory updating issue when changing a combo box
 
 	private JPanel panel1 = new JPanel();
 	private JPanel panel2 = new JPanel();
@@ -237,13 +239,13 @@ public class Main extends JFrame {
 	
 	public static void main(String[] args) {
 
-		//PersonUtil.offline = true;
-		System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
+		PersonUtil.offline = true;
+		/*System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
 		System.setProperty("http.proxyPort", "3128");
 		System.setProperty("https.proxyHost",
 				"cache.univ-lille1.fr");
 		System.setProperty("https.proxyPort", "3128");
-		PersonUtil.isProxyOn=true;
+		PersonUtil.isProxyOn=true;*/
 
 		DataPopulating.createAll();
 
