@@ -14,7 +14,6 @@
  */
 package org.studentfolower.ihm;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -43,7 +42,6 @@ public class FrameFactory extends JPanel {
 	@SuppressWarnings("unused")
 	private Cour cour;
 	private Groupe gr;
-	@SuppressWarnings("unused")
 	private RenderType type;
 	private List<SingleFrame> lsFrames;
 
@@ -67,17 +65,18 @@ public class FrameFactory extends JPanel {
 		for (Etudiant etu : gr.getLsEtu()) {
 			lsFrames.add(new SingleFrame(etu, cour));
 		}
+		setRenderType(type);
 		repaint();
 	}
 
 	private void setGrindLayout() {
-		this.setLayout(new GridLayout((lsFrames.size()/2)+1,2));
+		setLayout(new GridLayout((lsFrames.size() / 2) + 1, 2));
 	}
 
 	private void setLineLayout() {
-		
-		GridLayout grid = new GridLayout(lsFrames.size()+1,1);
-		this.setLayout(grid);
+
+		GridLayout grid = new GridLayout(lsFrames.size() + 1, 1);
+		setLayout(grid);
 	}
 
 	public void setRenderType(RenderType type) {
@@ -96,7 +95,7 @@ public class FrameFactory extends JPanel {
 		for (SingleFrame singleFrame : lsFrames) {
 			singleFrame.setType(type);
 			add(singleFrame);
-			
+
 		}
 		revalidate();
 		repaint();
