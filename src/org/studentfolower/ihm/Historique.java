@@ -3,9 +3,12 @@ package org.studentfolower.ihm;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXDatePicker;
+import org.studentfolower.data.management.Cour;
 
 /**
  * 
@@ -24,8 +28,12 @@ import org.jdesktop.swingx.JXDatePicker;
  */
 
 public class Historique extends JFrame {
+	
+	//TODO All the buttons and shit
 
 	private JButton back = new JButton("Retour");
+	
+	private Map<Cour,JButton> map = new HashMap<Cour,JButton>();
 
 	public Historique() {
 
@@ -48,7 +56,25 @@ public class Historique extends JFrame {
 		this.add(picker, BorderLayout.NORTH);
 
 		Date date = picker.getDate();
+		
+		//TODO is null really an ok argument?
 
+		/*for (Cour cour : Cour.getBy(date, null)) {
+		 
+		 //Seems like no. NullPointer Exception
+		  
+			map.put(cour, new JButton(cour.toString()));
+		}
+		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new GridLayout(1,0));
+		for (Cour cour : map.keySet()) {
+			mainPanel.add(map.get(cour));
+		}
+		
+		this.add(mainPanel);
+		*/
+		
 		pack();
 		this.setVisible(true);
 
