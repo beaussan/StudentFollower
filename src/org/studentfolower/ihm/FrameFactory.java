@@ -98,6 +98,7 @@ public class FrameFactory extends JPanel {
 			add(singleFrame);
 			
 		}
+		revalidate();
 		repaint();
 	}
 

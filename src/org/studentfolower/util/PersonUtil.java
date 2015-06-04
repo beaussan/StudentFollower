@@ -27,7 +27,7 @@ public class PersonUtil {
 
 	public static BufferedImage getImage(String name, int size) {
 		BufferedImage img = null;
-		System.out.println("Retriving picture for " + name.split("@")[0] + " ("
+		System.out.println("Retrieving picture for " + name.split("@")[0] + " ("
 				+ size + "*" + size + ") ...");
 		if (!offline) {
 			img = getOnline(name, size);

@@ -14,19 +14,35 @@
  */
 package org.studentfolower.ihm;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.studentfolower.data.management.Cour;
 import org.studentfolower.data.physical.Etudiant;
 
 public class EtuListeners implements MouseListener {
+	
+	private JButton back = new JButton("Retour");
+	
 	private static final long msTime = 300;
+	
 	private Etudiant etu;
 
 	private Cour cour;
 
 	private long timeClick;
+	
+	private JFrame fr;
 
 	public EtuListeners(Etudiant etu, Cour cour) {
 		this.etu = etu;
@@ -34,7 +50,61 @@ public class EtuListeners implements MouseListener {
 	}
 
 	private void longClick() {
-		// TODO TODO TODO TODO TODO TODO faire la popup des info de l'étudiant
+		
+		// TODO TODO TODO TODO TODO TODO faire la popup des info de l'ï¿½tudiant
+		
+		fr = new JFrame();
+		fr.setPreferredSize(new Dimension(330, 500));
+		fr.setTitle("Informations de l'Etudiant");
+		fr.setLocation(700, 250);
+		fr.setUndecorated(true);
+		
+		fr.setLayout(new BorderLayout());
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		buttonPanel.add(back);
+		fr.add(buttonPanel, BorderLayout.SOUTH);
+		
+		JPanel infoPanel = new JPanel();
+		infoPanel.setLayout(new GridLayout(5,1));
+		
+		if (this.etu.getName() != null) {
+			JLabel name = new JLabel(etu.getName());
+			infoPanel.add(name);
+		}
+		if (this.etu.getGroup() != null) {
+			JLabel grp = new JLabel(etu.getGroup().toString());
+			infoPanel.add(grp);
+		}
+		if (this.etu.getNumber() != null) {
+			JLabel num = new JLabel(etu.getNumber());
+			infoPanel.add(num);
+		}
+		if (this.etu.getEmail() != null) {
+			JLabel mail = new JLabel(etu.getEmail());
+			infoPanel.add(mail);
+		}
+		if (this.etu.getPostal() != null) {
+			JLabel post = new JLabel(etu.getPostal());
+			infoPanel.add(post);
+		}
+		
+		fr.add(infoPanel, BorderLayout.CENTER);
+		
+		back.addActionListener(
+				new java.awt.event.ActionListener() {
+					@Override
+					public void actionPerformed(
+							java.awt.event.ActionEvent evt) {
+
+						fr.dispose();
+
+					}
+				});
+		
+		fr.pack();
+		fr.setVisible(true);
+		
 	}
 
 	@Override

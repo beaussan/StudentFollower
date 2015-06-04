@@ -52,8 +52,6 @@ public class Main extends JFrame {
 	private JComboBox<String> combo1;
 	private JComboBox<String> combo2;
 
-	private DefaultComboBoxModel model;
-
 	private FrameFactory ff;
 	private JScrollPane scroll;
 
@@ -180,7 +178,7 @@ public class Main extends JFrame {
 								public void actionPerformed(
 										java.awt.event.ActionEvent evt) {
 
-									historique.setVisible(false);
+									historique.dispose();
 
 								}
 							});
@@ -239,7 +237,13 @@ public class Main extends JFrame {
 	
 	public static void main(String[] args) {
 
-		PersonUtil.offline = true;
+		//PersonUtil.offline = true;
+		System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
+		System.setProperty("http.proxyPort", "3128");
+		System.setProperty("https.proxyHost",
+				"cache.univ-lille1.fr");
+		System.setProperty("https.proxyPort", "3128");
+		PersonUtil.isProxyOn=true;
 
 		DataPopulating.createAll();
 
