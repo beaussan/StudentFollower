@@ -72,15 +72,33 @@ public class Historique extends JFrame {
 				date = picker.getDate();
 				System.out.println(date);
 				try {
+					map.clear();
 					if (Cour.getBy(date, Profesor.getAll().get(0)) != null) {
-						// IndexOutOfBonds ici, j'sais pas pourquoi.
-						// TODO S'occuper de ça. Moi je trouve pas le problème :/
-						// p-e dans la génération de data.
 
-						for (Cour cour : Cour.getBy(date, Profesor.getAll().get(0))) {
-							//Out of bonds ici aussi.
+						for (Cour cour : Cour.getBy(date, Profesor.getAll()
+								.get(0))) {
+
 							map.put(cour, new HistButton(cour, cour.toString()));
 						}
+
+					}
+					for (Cour cour : map.keySet()) {
+						
+						butt = map.get(cour);
+						
+						butt.addActionListener(new java.awt.event.ActionListener() {
+							@Override
+							public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+								mainPanel.removeAll();
+								FrameFactory f = butt.getFrameFactory();
+								mainPanel.add(f);
+								repaint();
+
+							}
+						});
+
+						mainPanel.add(butt);
 
 					}
 				} catch (java.lang.IndexOutOfBoundsException e) {
@@ -93,16 +111,15 @@ public class Historique extends JFrame {
 		});
 
 		this.add(picker, BorderLayout.NORTH);
-
-		// Deconne à partir d'ici.
-		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(1, 10));
 
 		// Génération de boutons une fois la date choisie + listener pour
 		// afficher le cour.
 		for (Cour cour : map.keySet()) {
+			
 			butt = map.get(cour);
+			
 			butt.addActionListener(new java.awt.event.ActionListener() {
 				@Override
 				public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,7 +132,7 @@ public class Historique extends JFrame {
 				}
 			});
 
-			mainPanel.add(map.get(cour));
+			mainPanel.add(butt);
 
 		}
 
