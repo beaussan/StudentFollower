@@ -186,9 +186,13 @@ public class SingleFrame extends JPanel {
 
 	public void setType1() {
 
+		name.setBorder(null);
+
 	}
 
 	public void setType2() {
+
+		name.setBorder(null);
 
 	}
 

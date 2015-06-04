@@ -38,6 +38,8 @@ import org.studentfolower.util.PersonUtil;
  */
 
 public class Main extends JFrame {
+	
+	//TODO Fix the FramingFactory updating issue when changing a combo box
 
 	private JPanel panel1 = new JPanel();
 	private JPanel panel2 = new JPanel();
@@ -51,8 +53,6 @@ public class Main extends JFrame {
 
 	private JComboBox<String> combo1;
 	private JComboBox<String> combo2;
-
-	private DefaultComboBoxModel model;
 
 	private FrameFactory ff;
 	private JScrollPane scroll;
@@ -180,7 +180,7 @@ public class Main extends JFrame {
 								public void actionPerformed(
 										java.awt.event.ActionEvent evt) {
 
-									historique.setVisible(false);
+									historique.dispose();
 
 								}
 							});
@@ -240,6 +240,12 @@ public class Main extends JFrame {
 	public static void main(String[] args) {
 
 		PersonUtil.offline = true;
+		/*System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
+		System.setProperty("http.proxyPort", "3128");
+		System.setProperty("https.proxyHost",
+				"cache.univ-lille1.fr");
+		System.setProperty("https.proxyPort", "3128");
+		PersonUtil.isProxyOn=true;*/
 
 		DataPopulating.createAll();
 
