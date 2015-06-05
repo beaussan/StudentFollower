@@ -100,5 +100,9 @@ public class FrameFactory extends JPanel {
 		revalidate();
 		repaint();
 	}
+	
+	public Cour getCour() {
+		return cour;
+	}
 
 }

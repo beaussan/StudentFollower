@@ -66,7 +66,7 @@ public class EtuListeners implements MouseListener {
 		fr.add(buttonPanel, BorderLayout.SOUTH);
 		
 		JPanel infoPanel = new JPanel();
-		infoPanel.setLayout(new GridLayout(5,1));
+		infoPanel.setLayout(new GridLayout(0,1));
 		
 		if (this.etu.getName() != null) {
 			JLabel name = new JLabel(etu.getName());
