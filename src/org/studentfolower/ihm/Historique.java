@@ -12,11 +12,13 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXDatePicker;
 import org.studentfolower.data.management.Cour;
+import org.studentfolower.data.physical.Profesor;
 
 /**
  * 
@@ -28,12 +30,20 @@ import org.studentfolower.data.management.Cour;
  */
 
 public class Historique extends JFrame {
-	
-	//TODO All the buttons and shit
+
+	// TODO All the buttons and shit
 
 	private JButton back = new JButton("Retour");
-	
-	private Map<Cour,JButton> map = new HashMap<Cour,JButton>();
+
+	private Map<Cour, HistButton> map = new HashMap<Cour, HistButton>();
+
+	private JPanel mainPanel;
+
+	private HistButton butt;
+
+	private Date date;
+
+	private JXDatePicker picker;
 
 	public Historique() {
 
@@ -49,32 +59,85 @@ public class Historique extends JFrame {
 		buttonPanel.add(back);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		JXDatePicker picker = new JXDatePicker();
+		picker = new JXDatePicker();
 		picker.setDate(Calendar.getInstance().getTime());
 		picker.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
 
+		date = picker.getDate();
+
+		picker.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+				date = picker.getDate();
+				System.out.println(date);
+				try {
+					map.clear();
+					if (Cour.getBy(date, Profesor.getAll().get(0)) != null) {
+
+						for (Cour cour : Cour.getBy(date, Profesor.getAll()
+								.get(0))) {
+
+							map.put(cour, new HistButton(cour, cour.toString()));
+						}
+
+					}
+					for (Cour cour : map.keySet()) {
+						
+						butt = map.get(cour);
+						
+						butt.addActionListener(new java.awt.event.ActionListener() {
+							@Override
+							public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+								mainPanel.removeAll();
+								FrameFactory f = butt.getFrameFactory();
+								mainPanel.add(f);
+								repaint();
+
+							}
+						});
+
+						mainPanel.add(butt);
+
+					}
+				} catch (java.lang.IndexOutOfBoundsException e) {
+					e.printStackTrace();
+				} finally {
+					System.out.println("Aucun cours");
+				}
+
+			}
+		});
+
 		this.add(picker, BorderLayout.NORTH);
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new GridLayout(1, 10));
 
-		Date date = picker.getDate();
-		
-		//TODO is null really an ok argument?
-
-		/*for (Cour cour : Cour.getBy(date, null)) {
-		 
-		 //Seems like no. NullPointer Exception
-		  
-			map.put(cour, new JButton(cour.toString()));
-		}
-		
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(1,0));
+		// Génération de boutons une fois la date choisie + listener pour
+		// afficher le cour.
 		for (Cour cour : map.keySet()) {
-			mainPanel.add(map.get(cour));
+			
+			butt = map.get(cour);
+			
+			butt.addActionListener(new java.awt.event.ActionListener() {
+				@Override
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+					mainPanel.removeAll();
+					FrameFactory f = butt.getFrameFactory();
+					mainPanel.add(f);
+					repaint();
+
+				}
+			});
+
+			mainPanel.add(butt);
+
 		}
-		
+
 		this.add(mainPanel);
-		*/
-		
+
 		pack();
 		this.setVisible(true);
 

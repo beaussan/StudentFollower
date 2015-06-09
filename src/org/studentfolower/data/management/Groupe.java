@@ -22,6 +22,8 @@ import java.util.Map;
 import org.studentfolower.data.physical.Etudiant;
 import org.studentfolower.data.physical.Profesor;
 
+import com.sun.org.apache.xml.internal.security.keys.content.RetrievalMethod;
+
 public class Groupe {
 	private static int counter = 0;
 	private static final List<Groupe> lsGr = new ArrayList<Groupe>();
@@ -218,6 +220,10 @@ public class Groupe {
 			retVal.get(etudiant).put(Status.ABSENT, abs);
 		}
 		return retVal;
+	}
+	
+	public String getStatStr() {
+		return getStatAbs().toString();
 	}
 
 	public Status getStatusEtu(Cour cour, Etudiant etu) {

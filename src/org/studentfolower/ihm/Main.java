@@ -1,6 +1,8 @@
 package org.studentfolower.ihm;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,6 +11,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -17,45 +20,45 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingUtilities;
 
 import org.studentfolower.data.management.Cour;
 import org.studentfolower.data.management.Groupe;
+import org.studentfolower.data.management.Status;
+import org.studentfolower.data.physical.Etudiant;
+import org.studentfolower.data.physical.Profesor;
 import org.studentfolower.util.ArrayUtils;
 import org.studentfolower.util.DataPopulating;
 import org.studentfolower.util.PersonUtil;
 
-/**
- * Modélise l'écran principal de l'application, avec deux ComboBox pour le
- * groupe et la salle, un bouton pour les options, un JScrollPane pour
- * l'affichage des élèves du cours et trois autres boutons pour changer de vue
- * 
- * @author MoulardS
- */
-
 public class Main extends JFrame {
-	
-	//TODO Fix the FramingFactory updating issue when changing a combo box
 
 	private JPanel panel1 = new JPanel();
 	private JPanel panel2 = new JPanel();
-	private JPanel panel3 = new JPanel();
+	// private JPanel panel3 = new JPanel();
 	private JPanel panel4 = new JPanel();
 
 	private JButton options = new JButton("O");
-	private JButton ba = new JButton("a");
-	private JButton bb = new JButton("b");
-	private JButton bc = new JButton("c");
+	private JButton ba = new JButton("Texte");
+	private JButton bb = new JButton("Trombi");
+	private JButton bc = new JButton("Photos");
+	private JButton back = new JButton("Retour");
 
 	private JComboBox<String> combo1;
 	private JComboBox<String> combo2;
 
 	private FrameFactory ff;
 	private JScrollPane scroll;
+
+	private JFrame fr;
+
+	private JLabel lab;
 
 	public Main() {
 
@@ -66,6 +69,13 @@ public class Main extends JFrame {
 
 		combo2 = new JComboBox<String>(ArrayUtils.toArray(Cour.getBy(grp)
 				.values()));
+
+		Groupe g = Groupe.getAll().get(combo1.getSelectedIndex());
+		ff = new FrameFactory(
+				(Cour) Cour.getBy(g).keySet().toArray()[combo2
+						.getSelectedIndex()]);
+		ff.setRenderType(RenderType.PICTURE_TEXT);
+		scroll = new JScrollPane(ff);
 
 		combo1.addItemListener(new ItemListener() {
 
@@ -79,8 +89,11 @@ public class Main extends JFrame {
 
 				combo2.setModel(mod);
 
+				scroll.removeAll();
 				ff.setCour((Cour) Cour.getBy(g).keySet().toArray()[combo2
 						.getSelectedIndex()]);
+				scroll.add(ff);
+				repaint();
 
 			}
 
@@ -91,18 +104,14 @@ public class Main extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				Groupe g = Groupe.getAll().get(combo1.getSelectedIndex());
+				scroll.removeAll();
 				ff.setCour((Cour) Cour.getBy(g).keySet().toArray()[combo2
 						.getSelectedIndex()]);
+				scroll.add(ff);
+				repaint();
 
 			}
 		});
-
-		Groupe g = Groupe.getAll().get(combo1.getSelectedIndex());
-		ff = new FrameFactory(
-				(Cour) Cour.getBy(g).keySet().toArray()[combo2
-						.getSelectedIndex()]);
-		ff.setRenderType(RenderType.PICTURE_TEXT);
-		scroll = new JScrollPane(ff);
 
 		this.setPreferredSize(new Dimension(330, 500));
 		this.setTitle("StudentFollower");
@@ -187,13 +196,64 @@ public class Main extends JFrame {
 
 				}
 
+				if (code == 1) {
+
+					fr = new JFrame();
+					fr.setPreferredSize(new Dimension(330, 500));
+					fr.setTitle("Informations de l'Etudiant");
+					fr.setLocation(700, 250);
+					fr.setUndecorated(true);
+
+					fr.setLayout(new BorderLayout());
+					JPanel buttonPanel = new JPanel();
+					buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+					buttonPanel.add(back);
+					fr.add(buttonPanel, BorderLayout.SOUTH);
+
+					JPanel infoPanel = new JPanel();
+					infoPanel.setLayout(new GridLayout(0, 1));
+					JScrollPane s;
+					
+
+					Map<Etudiant, Map<Status, Integer>> a = ff.getCour()
+							.getGr().getStatAbs();
+
+					for (Etudiant etu : ff.getCour().getGr().getLsEtu()) {
+
+						lab = new JLabel(etu.getName() + " | Absences = "
+								+ a.get(etu).get(Status.PRESENT) + " | Retards = "
+								+ a.get(etu).get(Status.RETARD));
+						infoPanel.add(lab);
+					}
+
+					s = new JScrollPane(infoPanel);
+					s.setLayout(new ScrollPaneLayout());
+					fr.add(s, BorderLayout.CENTER);
+
+					fr.pack();
+					fr.setVisible(true);
+					
+					back.addActionListener(
+
+							new java.awt.event.ActionListener() {
+								@Override
+								public void actionPerformed(
+										java.awt.event.ActionEvent evt) {
+
+									fr.dispose();
+
+								}
+							});
+
+				}
+
 			}
 		});
 
 		ba.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				
+
 				ff.setRenderType(RenderType.TEXT_ONLY);
 				repaint();
 
@@ -232,20 +292,21 @@ public class Main extends JFrame {
 		getRootPane().getActionMap().put("ESCAPE", escapeAction);
 
 	}
-	
+
 	/**
 	 * Fonction principale
 	 */
-	
+
 	public static void main(String[] args) {
 
 		PersonUtil.offline = true;
-		/*System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
-		System.setProperty("http.proxyPort", "3128");
-		System.setProperty("https.proxyHost",
-				"cache.univ-lille1.fr");
-		System.setProperty("https.proxyPort", "3128");
-		PersonUtil.isProxyOn=true;*/
+		/*
+		 * System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
+		 * System.setProperty("http.proxyPort", "3128");
+		 * System.setProperty("https.proxyHost", "cache.univ-lille1.fr");
+		 * System.setProperty("https.proxyPort", "3128");
+		 * PersonUtil.isProxyOn=true;
+		 */
 
 		DataPopulating.createAll();
 

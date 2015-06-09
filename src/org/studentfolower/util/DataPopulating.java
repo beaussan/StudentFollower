@@ -26,7 +26,7 @@ public class DataPopulating {
 
 	private static String lsPre = "Nicolas-Jean-Marc-Samuel-Pierre-Arthur";
 
-	private static String lsSur = "Chirak-Moulards-Beaussart-Dupond";
+	private static String lsSur = "Chirak-Moulard-Beaussart-Dupond";
 
 	public static void createAll() {
 		createStudents();
