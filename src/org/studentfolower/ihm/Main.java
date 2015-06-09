@@ -32,29 +32,53 @@ import org.studentfolower.data.management.Cour;
 import org.studentfolower.data.management.Groupe;
 import org.studentfolower.data.management.Status;
 import org.studentfolower.data.physical.Etudiant;
-import org.studentfolower.data.physical.Profesor;
 import org.studentfolower.util.ArrayUtils;
 import org.studentfolower.util.DataPopulating;
 import org.studentfolower.util.PersonUtil;
 
 public class Main extends JFrame {
 
-	private JPanel panel1 = new JPanel();
-	private JPanel panel2 = new JPanel();
+	/**
+	 * Fonction principale
+	 */
+
+	public static void main(String[] args) {
+
+		PersonUtil.offline = false;
+
+		System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
+		System.setProperty("http.proxyPort", "3128");
+		System.setProperty("https.proxyHost", "cache.univ-lille1.fr");
+		System.setProperty("https.proxyPort", "3128");
+		PersonUtil.isProxyOn = true;
+
+		DataPopulating.createAll();
+
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new Main();
+			}
+		});
+	}
+
+	private final JPanel panel1 = new JPanel();
+	private final JPanel panel2 = new JPanel();
+
 	// private JPanel panel3 = new JPanel();
-	private JPanel panel4 = new JPanel();
+	private final JPanel panel4 = new JPanel();
+	private final JButton options = new JButton("O");
+	private final JButton ba = new JButton("Texte");
+	private final JButton bb = new JButton("Trombi");
+	private final JButton bc = new JButton("Photos");
 
-	private JButton options = new JButton("O");
-	private JButton ba = new JButton("Texte");
-	private JButton bb = new JButton("Trombi");
-	private JButton bc = new JButton("Photos");
-	private JButton back = new JButton("Retour");
+	private final JButton back = new JButton("Retour");
+	private final JComboBox<String> combo1;
 
-	private JComboBox<String> combo1;
-	private JComboBox<String> combo2;
+	private final JComboBox<String> combo2;
+	private final FrameFactory ff;
 
-	private FrameFactory ff;
-	private JScrollPane scroll;
+	private final JScrollPane scroll;
 
 	private JFrame fr;
 
@@ -113,11 +137,11 @@ public class Main extends JFrame {
 			}
 		});
 
-		this.setPreferredSize(new Dimension(330, 500));
-		this.setTitle("StudentFollower");
+		setPreferredSize(new Dimension(330, 500));
+		setTitle("StudentFollower");
 		this.setLocation(700, 250);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setUndecorated(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setUndecorated(true);
 
 		panel2.setLayout(new GridLayout(1, 3));
 		panel2.add(combo1);
@@ -168,7 +192,7 @@ public class Main extends JFrame {
 
 		pack();
 
-		this.setVisible(true);
+		setVisible(true);
 
 		options.addActionListener(new java.awt.event.ActionListener() {
 			@Override
@@ -213,7 +237,6 @@ public class Main extends JFrame {
 					JPanel infoPanel = new JPanel();
 					infoPanel.setLayout(new GridLayout(0, 1));
 					JScrollPane s;
-					
 
 					Map<Etudiant, Map<Status, Integer>> a = ff.getCour()
 							.getGr().getStatAbs();
@@ -221,7 +244,8 @@ public class Main extends JFrame {
 					for (Etudiant etu : ff.getCour().getGr().getLsEtu()) {
 
 						lab = new JLabel(etu.getName() + " | Absences = "
-								+ a.get(etu).get(Status.PRESENT) + " | Retards = "
+								+ a.get(etu).get(Status.PRESENT)
+								+ " | Retards = "
 								+ a.get(etu).get(Status.RETARD));
 						infoPanel.add(lab);
 					}
@@ -232,18 +256,18 @@ public class Main extends JFrame {
 
 					fr.pack();
 					fr.setVisible(true);
-					
+
 					back.addActionListener(
 
-							new java.awt.event.ActionListener() {
-								@Override
-								public void actionPerformed(
-										java.awt.event.ActionEvent evt) {
+					new java.awt.event.ActionListener() {
+						@Override
+						public void actionPerformed(
+								java.awt.event.ActionEvent evt) {
 
-									fr.dispose();
+							fr.dispose();
 
-								}
-							});
+						}
+					});
 
 				}
 
@@ -283,6 +307,7 @@ public class Main extends JFrame {
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,
 				0, false);
 		Action escapeAction = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Main.this.dispose();
 			}
@@ -291,31 +316,6 @@ public class Main extends JFrame {
 				escapeKeyStroke, "ESCAPE");
 		getRootPane().getActionMap().put("ESCAPE", escapeAction);
 
-	}
-
-	/**
-	 * Fonction principale
-	 */
-
-	public static void main(String[] args) {
-
-		PersonUtil.offline = true;
-		/*
-		 * System.setProperty("http.proxyHost", "cache.univ-lille1.fr");
-		 * System.setProperty("http.proxyPort", "3128");
-		 * System.setProperty("https.proxyHost", "cache.univ-lille1.fr");
-		 * System.setProperty("https.proxyPort", "3128");
-		 * PersonUtil.isProxyOn=true;
-		 */
-
-		DataPopulating.createAll();
-
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new Main();
-			}
-		});
 	}
 
 }
